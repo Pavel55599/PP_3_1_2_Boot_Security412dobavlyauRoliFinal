@@ -1,19 +1,33 @@
+
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>User Details</title>
+    <title>User Details PAGE ADMIN</title>
 </head>
 <body>
 <h1>User Details</h1>
 <p><strong>ID:</strong> <span th:text="${user.id}"></span></p>
 <p><strong>Name:</strong> <span th:text="${user.username}"></span></p>
 <p><strong>Last Name:</strong> <span th:text="${user.lastName}"></span></p>
-<p><strong>enabled</strong> <span th:text="${user.enabled}"></span></p>
+<p><strong>Enabled</strong> <span th:text="${user.enabled}"></span></p>
 <p><strong>password</strong> <span th:text="${user.password}"></span></p>
 <p><strong>Role</strong> <span th:text="${user.roles}"></span></p>
 <br>
-<a th:href="@{/users}">Back to List</a>
+<a th:href="@{/admin}">Back to List</a>
 </body>
 </html>
 
+
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Title</title>-->
+<!--</head>-->
+<!--<body>-->
+
+<!--</body>-->
+<!--</html>-->

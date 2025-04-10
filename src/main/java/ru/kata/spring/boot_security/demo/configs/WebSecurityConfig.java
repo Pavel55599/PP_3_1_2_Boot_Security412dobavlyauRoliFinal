@@ -47,8 +47,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/user").hasRole("USER")
 
 
-                .antMatchers("/admin","/users","/new",
+                .antMatchers("/admin","/new",
                         "/edit","/update","/delete").hasRole("ADMIN")
+//                .antMatchers("/admin/**").hasRole("ADMIN")
 
 
                 .antMatchers("/show").hasAnyRole("USER", "ADMIN")
@@ -62,69 +63,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .permitAll();
     }
-
-
-
-//
-//    @Bean
-//    public CommandLineRunner initUsers(UserService userService,
-//                                       PasswordEncoder passwordEncoder,
-//                                       RoleRepository roleRepository) {
-//        return args -> {
-//            // Создаем роли, если их нет
-//
-//            Role adminRole = createRoleIfNotExists("ROLE_ADMIN", roleRepository);
-//            Role userRole = createRoleIfNotExists("ROLE_USER", roleRepository);
-//
-//            // Создаем администратора
-//            createUserIfNotExists(
-//                    "admin",
-//                    "admin",  // пароль будет закодирован
-//                    "Adminov",
-//                    Set.of(adminRole),//, userRole),  // админ может иметь и роль пользователя
-//                    userService,
-//                    passwordEncoder
-//            );
-//
-//            // Создаем обычного пользователя
-//            createUserIfNotExists(
-//                    "user",
-//                    "user",  // пароль будет закодирован
-//                    "Userov",
-//                    Set.of(userRole),
-//                    userService,
-//                    passwordEncoder
-//            );
-//        };
-//    }
-
-//    private Role createRoleIfNotExists(String roleName, RoleRepository roleRepository) {
-//        Role role = roleRepository.findByName(roleName);
-//        if (role == null) {
-//            role = new Role(roleName);
-//            roleRepository.save(role);
-//        }
-//        return role;
-//    }
-//
-//    private void createUserIfNotExists(String username,
-//                                       String password,
-//                                       String lastName,
-//                                       Set<Role> roles,
-//                                       UserService userService,
-//                                       PasswordEncoder passwordEncoder) {
-//        if (userService.findByUsername(username) == null) {
-//            User user = new User();
-//            user.setUsername(username);
-//            user.setPassword(passwordEncoder.encode(password));  // кодируем пароль
-//            user.setLastName(lastName);
-//            user.setEnabled(true);
-//            user.setRoles(roles);
-//            userService.save(user);
-//        }
-//    }
-
-
 
 
     @Bean
@@ -150,66 +88,3 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-
-
-// аутентификация inMemory
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("user")
-//                        .roles("USER")
-//                        .build();
-//
-//        UserDetails admin =
-//                User.withDefaultPasswordEncoder()
-//                        .username("admin")
-//                        .password("admin")
-//                        .roles("ADMIN")
-//                        .build();
-//
-//
-//
-//        return new InMemoryUserDetailsManager(user, admin);
-//    }
-
-
-
-
-
-
-// аутентификация чз сохранение в базе вручную чз sql - запрос
-//      @Bean
-//      public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource) {
-//
-//
-//          UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("user")
-//                        .roles("USER")
-//                        .build();
-//
-//        UserDetails admin =
-//                User.withDefaultPasswordEncoder()
-//                        .username("admin")
-//                        .password("admin")
-//                        .roles("ADMIN")
-//                        .build();
-//        JdbcUserDetailsManager jdbcUserDetailsManager = new JdbcUserDetailsManager(dataSource);
-//
-//        if (jdbcUserDetailsManager.userExists(user.getUsername())) {
-//            jdbcUserDetailsManager.deleteUser(user.getUsername());
-//        }
-//          if (jdbcUserDetailsManager.userExists(admin.getUsername())) {
-//              jdbcUserDetailsManager.deleteUser(admin.getUsername());
-//          }
-//
-//
-//        jdbcUserDetailsManager.createUser(user);
-//        jdbcUserDetailsManager.createUser(admin);
-//        return jdbcUserDetailsManager;
-//
-//      }
