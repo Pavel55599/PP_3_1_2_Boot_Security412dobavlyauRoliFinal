@@ -71,31 +71,67 @@ public class AdminController {
         return "admin/edit";
     }
 
+
+    //ЭТО Я ДОБАВИЛ ПЕРЕД СНОМ
     @PostMapping("/update")
     public String updateUser(
             @RequestParam("id") Long id,
             @RequestParam("username") String username,
-            @RequestParam("password") String password,
-
+            @RequestParam("lastName") String lastName, // Добавлено
+            @RequestParam(value = "password", required = false) String password, // Сделано необязательным
             @RequestParam(value = "selectedRoles", required = false) Set<Long> selectedRoles) {
 
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
+        // 1. Получаем существующего пользователя
+        User existingUser = userService.findById(id);
 
+        // 2. Обновляем только необходимые поля
+        existingUser.setUsername(username);
+        existingUser.setLastName(lastName); // Устанавливаем фамилию
 
+        if (password != null && !password.isEmpty()) {
+            existingUser.setPassword(password);
+        }
+
+        // 3. Обновляем роли
         Set<Role> roles = new HashSet<>();
         if (selectedRoles != null) {
             for (Long roleId : selectedRoles) {
                 roles.add(roleService.getRoleById(roleId));
             }
         }
-        user.setRoles(roles);
-        userService.update(id, user);
+        existingUser.setRoles(roles);
+
+        // 4. Сохраняем изменения
+        userService.update(id, existingUser);
 
         return "redirect:/admin";
-    }
+    }//ЭТО Я ДОБАВИЛ ПЕРЕД СНОМ^^^^^^^выше
 
+//    @PostMapping("/update")
+//    public String updateUser(
+//            @RequestParam("id") Long id,
+//            @RequestParam("username") String username,
+//            @RequestParam("password") String password,
+//
+//            @RequestParam(value = "selectedRoles", required = false) Set<Long> selectedRoles) {
+//
+//        User user = new User();
+//        user.setUsername(username);
+//        user.setPassword(password);
+//
+//
+//        Set<Role> roles = new HashSet<>();
+//        if (selectedRoles != null) {
+//            for (Long roleId : selectedRoles) {
+//                roles.add(roleService.getRoleById(roleId));
+//            }
+//        }
+//        user.setRoles(roles);
+//        userService.update(id, user);
+//
+//        return "redirect:/admin";
+//    }
+    //это и так работало^^^^^^^^выше
     @GetMapping("/delete")
     public String showDeleteForm(@RequestParam("id") Long id, Model model) {
         model.addAttribute("user", userService.findById(id));

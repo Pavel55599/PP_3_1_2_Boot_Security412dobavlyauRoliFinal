@@ -44,15 +44,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-                .antMatchers("/user").hasRole("USER")
+//                .antMatchers("/user","/showuser").hasRole("USER")
+//                .antMatchers("/admin","/new",
+//                        "/edit","/update","/delete","/show").hasRole("ADMIN")
 
+                .antMatchers("/user/**").hasRole("USER")
 
-                .antMatchers("/admin","/new",
-                        "/edit","/update","/delete").hasRole("ADMIN")
-//                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/admin/**").hasRole("ADMIN")
 
-
-                .antMatchers("/show").hasAnyRole("USER", "ADMIN")
 
                 .anyRequest().authenticated()
 
