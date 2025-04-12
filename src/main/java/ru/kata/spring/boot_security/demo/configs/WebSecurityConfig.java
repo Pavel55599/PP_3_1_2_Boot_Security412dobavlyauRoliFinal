@@ -17,6 +17,7 @@ import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
+
 import java.util.Set;
 
 @Configuration
@@ -25,8 +26,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
 
 
-
     private UserService userService;
+
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
@@ -41,20 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/index").permitAll()
-
-
-
-//                .antMatchers("/user","/showuser").hasRole("USER")
-//                .antMatchers("/admin","/new",
-//                        "/edit","/update","/delete","/show").hasRole("ADMIN")
-
-                .antMatchers("/user/**").hasRole("USER")
-
                 .antMatchers("/admin/**").hasRole("ADMIN")
-
-
+                .antMatchers("/user/**").hasRole("USER")
                 .anyRequest().authenticated()
-
                 .and()
                 .formLogin().successHandler(successUserHandler)
                 .permitAll()
@@ -70,16 +60,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-   @Bean
+    @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         authenticationProvider.setUserDetailsService((UserDetailsService) userService);
 
-      //  authenticationProvider.setUserCache(new EhCacheBasedUserCache());
 
         return authenticationProvider;
-   }
+    }
 
 }
 

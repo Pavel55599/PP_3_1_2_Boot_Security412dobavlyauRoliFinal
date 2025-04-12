@@ -14,7 +14,7 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import java.util.Set;
 
 @Component
-public class DataInitializer  {
+public class DataInitializer {
 
     @Bean
     public CommandLineRunner initUsers(UserService userService,
