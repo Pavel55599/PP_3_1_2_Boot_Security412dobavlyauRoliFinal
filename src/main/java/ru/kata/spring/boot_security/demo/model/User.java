@@ -15,21 +15,21 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //(unique = true,
-    @Column( nullable = false)
+
+    @Column(unique = true, nullable = false)
     private String username;
 
     @Column(name = "LASTNAME")
     private String lastName;
 
-    @Column(nullable = false)
+    @Column( nullable = false)
     private String password;
 
     @Column
     private boolean enabled = true;
 
     @ManyToMany(fetch = FetchType.EAGER)
-//            (fetch = FetchType.LAZY)
+
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -95,18 +95,18 @@ public class User implements UserDetails {
                 '}';
     }
 
+
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(username, user.username);
+        return enabled == user.enabled && Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(lastName, user.lastName) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username);
+        return Objects.hash(id, username, lastName, password, enabled, roles);
     }
 
     @Override

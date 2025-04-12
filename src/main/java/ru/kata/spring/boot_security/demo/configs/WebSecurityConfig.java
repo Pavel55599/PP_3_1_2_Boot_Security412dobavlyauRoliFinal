@@ -41,20 +41,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/", "/index").permitAll()
-
-
-
-//                .antMatchers("/user","/showuser").hasRole("USER")
-//                .antMatchers("/admin","/new",
-//                        "/edit","/update","/delete","/show").hasRole("ADMIN")
-
-                .antMatchers("/user/**").hasRole("USER")
-
                 .antMatchers("/admin/**").hasRole("ADMIN")
-
-
+                .antMatchers("/user/**").hasRole("USER")
                 .anyRequest().authenticated()
-
                 .and()
                 .formLogin().successHandler(successUserHandler)
                 .permitAll()
@@ -76,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         authenticationProvider.setUserDetailsService((UserDetailsService) userService);
 
-      //  authenticationProvider.setUserCache(new EhCacheBasedUserCache());
+
 
         return authenticationProvider;
    }
