@@ -15,8 +15,8 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(unique = true, nullable = false)
+    //(unique = true,
+    @Column( nullable = false)
     private String username;
 
     @Column(name = "LASTNAME")
@@ -29,7 +29,7 @@ public class User implements UserDetails {
     private boolean enabled = true;
 
     @ManyToMany(fetch = FetchType.EAGER)
-
+//            (fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -37,8 +37,7 @@ public class User implements UserDetails {
     )
     private Set<Role> roles = new HashSet<>();
 
-    public User() {
-    }
+    public User() {}
 
     public User(String name, String lastName, String password) {
         this.username = name;
@@ -57,6 +56,8 @@ public class User implements UserDetails {
     public void setUsername(String username) {
         this.username = username;
     }
+
+
 
 
     public String getLastName() {
@@ -94,17 +95,18 @@ public class User implements UserDetails {
                 '}';
     }
 
-
     @Override
     public boolean equals(Object o) {
+        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return enabled == user.enabled && Objects.equals(id, user.id) && Objects.equals(username, user.username) && Objects.equals(lastName, user.lastName) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
+        return Objects.equals(id, user.id) &&
+                Objects.equals(username, user.username);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, lastName, password, enabled, roles);
+        return Objects.hash(id, username);
     }
 
     @Override
